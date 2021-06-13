@@ -41,60 +41,60 @@ services:
     networks:
       - backend
 
-  cache:
-    image: memcached
-    <<: *restart_policy
-    networks:
-      - backend
-
-  proxy:
-    <<: *image
-    <<: *restart_policy
-    command: "./docker/prod/proxy"
-    ports:
-      - "${PORT:-8080}:80"
-    environment:
-      APP_HOST: web
-      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
-    depends_on:
-      - web
-    networks:
-      - frontend
-
-  web:
-    <<: *app
-    command: "./docker/prod/web"
-    networks:
-      - frontend
-      - backend
-    depends_on:
-      - db
-      - cache
-      - seeder
-
-  worker:
-    <<: *app
-    command: "./docker/prod/worker"
-    networks:
-      - backend
-    depends_on:
-      - db
-      - cache
-      - seeder
-
-  cron:
-    <<: *app
-    command: "./docker/prod/cron"
-    networks:
-      - backend
-    depends_on:
-      - db
-      - cache
-      - seeder
-
-  seeder:
-    <<: *app
-    command: "./docker/prod/seeder"
-    restart: on-failure
-    networks:
-      - backend
+#  cache:
+#    image: memcached
+#    <<: *restart_policy
+#    networks:
+#      - backend
+#
+#  proxy:
+#    <<: *image
+#    <<: *restart_policy
+#    command: "./docker/prod/proxy"
+#    ports:
+#      - "${PORT:-8080}:80"
+#    environment:
+#      APP_HOST: web
+#      OPENPROJECT_RAILS__RELATIVE__URL__ROOT: "${OPENPROJECT_RAILS__RELATIVE__URL__ROOT:-}"
+#    depends_on:
+#      - web
+#    networks:
+#      - frontend
+#
+#  web:
+#    <<: *app
+#    command: "./docker/prod/web"
+#    networks:
+#      - frontend
+#      - backend
+#    depends_on:
+#      - db
+#      - cache
+#      - seeder
+#
+#  worker:
+#    <<: *app
+#    command: "./docker/prod/worker"
+#    networks:
+#      - backend
+#    depends_on:
+#      - db
+#      - cache
+#      - seeder
+#
+#  cron:
+#    <<: *app
+#    command: "./docker/prod/cron"
+#    networks:
+#      - backend
+#    depends_on:
+#      - db
+#      - cache
+#      - seeder
+#
+#  seeder:
+#    <<: *app
+#    command: "./docker/prod/seeder"
+#    restart: on-failure
+#    networks:
+#      - backend
